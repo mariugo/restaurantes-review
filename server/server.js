@@ -13,7 +13,8 @@ app.use(express.json());
 //SELECT ALL RESTAURANTS
 app.get("/api/restaurants", async (req, res) => {
     try {
-        const allRest = await pool.query("SELECT * FROM restaurants");
+        const allRest = await pool.query(
+            "SELECT * FROM restaurants");
         res.json(allRest.rows);
     } catch (error) {
         console.error("Erro ao selecionar " + error.message);
@@ -25,7 +26,8 @@ app.get("/api/restaurants", async (req, res) => {
 app.get("/api/restaurants/:id", async (req, res) => {
     try {
         const {id} = req.params;
-        const restaurant = await pool.query("SELECT * FROM restaurants WHERE id = $1", [id]);
+        const restaurant = await pool.query(
+            "SELECT * FROM restaurants WHERE id = $1", [id]);
         res.json(restaurant[0]);
     } catch (error) {
         console.error("Erro ao selecionar" + error.message);
@@ -38,7 +40,9 @@ app.get("/api/restaurants/:id", async (req, res) => {
 app.post("/api/restaurants", async (req, res) => {
     try {
         const {name, location, price_range} = req.body;
-        const addRes = await pool.query("INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *", [name, location, price_range]);
+        const addRes = await pool.query(
+            "INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *", 
+            [name, location, price_range]);
         res.json(addRes.rows[0]);
     } catch (error) {
         console.error("Erro ao inserir restaurante" + error.message);
